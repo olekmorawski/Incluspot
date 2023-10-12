@@ -18,7 +18,8 @@ const MapComponent = () => {
   };
 
   const setMapCenter = (position) => {
-    const { latitude, longitude } = position.coords;
+    const { latitude, longitude, accuracy } = position.coords;
+    console.log("Accuracy:", accuracy);
     const latlng = [latitude, longitude];
     if (mapRef.current && !hasInitialViewBeenSet) {
       mapRef.current.setView(latlng, 13);
