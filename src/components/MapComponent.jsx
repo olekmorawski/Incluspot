@@ -9,6 +9,8 @@ const MapComponent = () => {
   const [hasInitialViewBeenSet, setHasInitialViewBeenSet] = useState(false);
   const [customPopupPositions, setCustomPopupPositions] = useState([]);
 
+  let currentTooltip = null;
+
   const initializeMap = () => {
     if (!mapRef.current) {
       mapRef.current = L.map("map");
@@ -25,37 +27,74 @@ const MapComponent = () => {
     }
   };
 
-  const setMapCenter = (position) => {
-    const { latitude, longitude } = position.coords;
-    const latlng = [latitude, longitude];
-    if (mapRef.current && !hasInitialViewBeenSet) {
-      mapRef.current.setView(latlng, 13);
-      setHasInitialViewBeenSet(true);
-    }
-  };
-
   const fetchGeolocation = () => {
     if (navigator.geolocation) {
-      const options = {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0,
-      };
-
       navigator.geolocation.getCurrentPosition(
-        setMapCenter,
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          if (mapRef.current && !hasInitialViewBeenSet) {
+            mapRef.current.setView([latitude, longitude], 13);
+            setHasInitialViewBeenSet(true);
+          }
+        },
         () => {
           console.log("Could not get user location");
-        }, options);
+        }
+      );
     }
   };
+
+  let tooltipCounter = 0;
 
   const onMapClick = (event) => {
     const latlng = event.latlng;
-    setCustomPopupPositions([
-      ...customPopupPositions,
-      [latlng.lat, latlng.lng],
-    ]);
+    const tooltipId = `tooltip-${tooltipCounter}`;
+    const buttonId = `place-popup-btn-${tooltipCounter}`;
+    tooltipCounter++;
+
+    if (currentTooltip) {
+      currentTooltip.removeFrom(mapRef.current);
+    }
+
+    const tooltip = L.tooltip({
+      permanent: true,
+      interactive: true,
+      opacity: 1,
+    })
+      .setLatLng(latlng)
+      .setContent(
+        `<div id="${tooltipId}"><button id="${buttonId}">Place Popup</button></div>`
+      )
+      .addTo(mapRef.current);
+
+    currentTooltip = tooltip;
+
+    const tooltipTimer = setTimeout(() => {
+      tooltip.removeFrom(mapRef.current);
+      currentTooltip = null;
+    }, 2000);
+
+    const placePopupAndRemoveTooltip = () => {
+      setCustomPopupPositions([
+        ...customPopupPositions,
+        [latlng.lat, latlng.lng],
+      ]);
+      tooltip.removeFrom(mapRef.current);
+      document
+        .getElementById(buttonId)
+        .removeEventListener("click", placePopupAndRemoveTooltip);
+
+      currentTooltip = null;
+
+      clearTimeout(tooltipTimer);
+    };
+
+    setTimeout(() => {
+      const buttonElement = document.getElementById(buttonId);
+      if (buttonElement) {
+        buttonElement.addEventListener("click", placePopupAndRemoveTooltip);
+      }
+    }, 0);
   };
 
   useEffect(() => {
@@ -82,8 +121,49 @@ const MapComponent = () => {
     zIndex: 1000,
   };
 
-  const CustomPopup = ({ position }) => {
+  const CustomPopup = ({ position, index }) => {
     const ref = useRef(null);
+
+    const handlePopupClick = () => {
+      const tooltipId = `delete-tooltip-${tooltipCounter}`;
+      const buttonId = `delete-popup-btn-${tooltipCounter}`;
+      tooltipCounter++;
+
+      const tooltip = L.tooltip({
+        permanent: true,
+        interactive: true,
+        opacity: 1,
+      })
+        .setLatLng(position)
+        .setContent(
+          `<div id="${tooltipId}"><button id="${buttonId}">Delete this placement</button></div>`
+        )
+        .addTo(mapRef.current);
+
+      const deletePopupAndRemoveTooltip = () => {
+        setCustomPopupPositions((prevPositions) =>
+          prevPositions.filter((_, i) => i !== index)
+        );
+        tooltip.removeFrom(mapRef.current);
+
+        setTimeout(() => {
+          const buttonElement = document.getElementById(buttonId);
+          if (buttonElement) {
+            buttonElement.removeEventListener(
+              "click",
+              deletePopupAndRemoveTooltip
+            );
+          }
+        }, 0);
+      };
+
+      setTimeout(() => {
+        const buttonElement = document.getElementById(buttonId);
+        if (buttonElement) {
+          buttonElement.addEventListener("click", deletePopupAndRemoveTooltip);
+        }
+      }, 0);
+    };
 
     useEffect(() => {
       const updateCustomPopupPosition = () => {
@@ -109,7 +189,7 @@ const MapComponent = () => {
     }, [position]);
 
     return (
-      <div ref={ref} style={customPopupStyles}>
+      <div ref={ref} style={customPopupStyles} onClick={handlePopupClick}>
         There is a spot here!
       </div>
     );
@@ -118,7 +198,7 @@ const MapComponent = () => {
   return (
     <div id="map" style={{ height: "100vh", width: "100%" }}>
       {customPopupPositions.map((position, index) => (
-        <CustomPopup key={`popup-${index}`} position={position} />
+        <CustomPopup key={`popup-${index}`} position={position} index={index} />
       ))}
     </div>
   );
