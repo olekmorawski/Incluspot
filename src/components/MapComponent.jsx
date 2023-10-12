@@ -4,6 +4,7 @@ import "leaflet/dist/leaflet.css";
 
 const MapComponent = () => {
   const mapRef = useRef(null);
+  const popupRef = useRef(null);
   const [currentPosition, setCurrentPosition] = useState(null);
 
   const initializeMap = () => {
@@ -17,11 +18,7 @@ const MapComponent = () => {
 
   const setMapCenter = (position) => {
     const { latitude, longitude } = position.coords;
-    const latlng = [latitude, longitude];
-    if (mapRef.current) {
-      mapRef.current.setView(latlng, 13);
-    }
-    setCurrentPosition(latlng);
+    setCurrentPosition([latitude, longitude]);
   };
 
   const fetchGeolocation = () => {
@@ -35,7 +32,31 @@ const MapComponent = () => {
   useEffect(() => {
     initializeMap();
     fetchGeolocation();
-  }, []);
+
+    const updatePopupPosition = () => {
+      if (currentPosition && popupRef.current && mapRef.current) {
+        const point = mapRef.current.latLngToContainerPoint(currentPosition);
+        popupRef.current.style.left = point.x + "px";
+        popupRef.current.style.top = point.y + "px";
+      }
+    };
+
+    if (mapRef.current) {
+      // Initial positioning
+      updatePopupPosition();
+
+      // Update the popup position when the map moves or zooms
+      mapRef.current.on("move", updatePopupPosition);
+      mapRef.current.on("zoom", updatePopupPosition);
+    }
+
+    return () => {
+      if (mapRef.current) {
+        mapRef.current.off("move", updatePopupPosition);
+        mapRef.current.off("zoom", updatePopupPosition);
+      }
+    };
+  }, [currentPosition]);
 
   const customPopupStyles = {
     backgroundColor: "#f9f9f9",
@@ -43,15 +64,13 @@ const MapComponent = () => {
     padding: "10px",
     boxShadow: "0 1px 7px rgba(0, 0, 0, 0.2)",
     position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
+    zIndex: 1000,
   };
 
   return (
     <div id="map" style={{ height: "100vh", width: "100%" }}>
       {currentPosition && (
-        <div style={customPopupStyles}>
+        <div ref={popupRef} style={customPopupStyles}>
           You are at {currentPosition[0]}, {currentPosition[1]}
         </div>
       )}
