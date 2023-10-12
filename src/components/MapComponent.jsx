@@ -6,10 +6,11 @@ const MapComponent = () => {
   const mapRef = useRef(null);
   const popupRef = useRef(null);
   const [currentPosition, setCurrentPosition] = useState(null);
+  const [hasInitialViewBeenSet, setHasInitialViewBeenSet] = useState(false);
 
   const initializeMap = () => {
     if (!mapRef.current) {
-      mapRef.current = L.map("map").setView([51.505, -0.09], 13);
+      mapRef.current = L.map("map");
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(
         mapRef.current
       );
@@ -18,7 +19,12 @@ const MapComponent = () => {
 
   const setMapCenter = (position) => {
     const { latitude, longitude } = position.coords;
-    setCurrentPosition([latitude, longitude]);
+    const latlng = [latitude, longitude];
+    if (mapRef.current && !hasInitialViewBeenSet) {
+      mapRef.current.setView(latlng, 13);
+      setHasInitialViewBeenSet(true);
+    }
+    setCurrentPosition(latlng);
   };
 
   const fetchGeolocation = () => {
