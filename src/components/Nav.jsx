@@ -1,18 +1,37 @@
-import React from "react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { Link as ScrollLink } from "react-scroll";
 
-function Nav() {
+const Nav = () => {
+  const [activeLink, setActiveLink] = useState("/");
+
   return (
-    <nav>
-      <ul>
-        <li>
-          <a href="/">Home</a>
-        </li>
-        <li>
-          <a href="/mapview">Map View</a>
-        </li>
-      </ul>
-    </nav>
+    <div className="nav_box">
+      <div className="nav">
+        <div className="auth_links">
+          ? (<Link onClick={""}>Sign Out</Link>) : (
+          <>
+            <Link to="/login" onClick={() => setActiveLink("/login")}>
+              Log in
+            </Link>
+            <Link to="/signup" onClick={() => setActiveLink("/signup")}>
+              Sign up
+            </Link>
+          </>
+          )
+        </div>
+        <div className="nav_links">
+          <Link
+            to="/mapview"
+            onClick={() => setActiveLink("/mapview")}
+            className={activeLink === "/mapview" ? "active" : ""}
+          >
+            Map View
+          </Link>
+        </div>
+      </div>
+    </div>
   );
-}
+};
 
 export default Nav;

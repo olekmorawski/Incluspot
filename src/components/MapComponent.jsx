@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import "leaflet.locatecontrol/dist/L.Control.Locate.min.css";
+import Locate from "leaflet.locatecontrol";
 
 const MapComponent = () => {
   const mapRef = useRef(null);
-  const popupRef = useRef(null);
-  const [currentPosition, setCurrentPosition] = useState(null);
   const [hasInitialViewBeenSet, setHasInitialViewBeenSet] = useState(false);
+  const [customPopupPositions, setCustomPopupPositions] = useState([]);
 
   const initializeMap = () => {
     if (!mapRef.current) {
@@ -14,55 +15,65 @@ const MapComponent = () => {
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(
         mapRef.current
       );
+
+      const locateControl = new Locate({
+        position: "topright",
+      });
+
+      locateControl.addTo(mapRef.current);
+      locateControl.start();
     }
   };
 
   const setMapCenter = (position) => {
-    const { latitude, longitude, accuracy } = position.coords;
-    console.log("Accuracy:", accuracy);
+    const { latitude, longitude } = position.coords;
     const latlng = [latitude, longitude];
     if (mapRef.current && !hasInitialViewBeenSet) {
       mapRef.current.setView(latlng, 13);
       setHasInitialViewBeenSet(true);
     }
-    setCurrentPosition(latlng);
   };
 
   const fetchGeolocation = () => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(setMapCenter, () => {
-        console.log("Could not get user location");
-      });
+      const options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0,
+      };
+
+      navigator.geolocation.getCurrentPosition(
+        setMapCenter,
+        () => {
+          console.log("Could not get user location");
+        }, options);
     }
+  };
+
+  const onMapClick = (event) => {
+    const latlng = event.latlng;
+    setCustomPopupPositions([
+      ...customPopupPositions,
+      [latlng.lat, latlng.lng],
+    ]);
   };
 
   useEffect(() => {
     initializeMap();
     fetchGeolocation();
 
-    const updatePopupPosition = () => {
-      if (currentPosition && popupRef.current && mapRef.current) {
-        const point = mapRef.current.latLngToContainerPoint(currentPosition);
-        popupRef.current.style.left = point.x + "px";
-        popupRef.current.style.top = point.y + "px";
-      }
-    };
-
     if (mapRef.current) {
-      updatePopupPosition();
-      mapRef.current.on("move", updatePopupPosition);
-      mapRef.current.on("zoom", updatePopupPosition);
+      mapRef.current.on("click", onMapClick);
     }
 
     return () => {
       if (mapRef.current) {
-        mapRef.current.off("move", updatePopupPosition);
-        mapRef.current.off("zoom", updatePopupPosition);
+        mapRef.current.off("click", onMapClick);
       }
     };
-  }, [currentPosition]);
+  }, [customPopupPositions]);
 
-  const userPopupStyles = {
+  const customPopupStyles = {
     backgroundColor: "#f9f9f9",
     border: "1px solid #ccc",
     padding: "10px",
@@ -71,13 +82,44 @@ const MapComponent = () => {
     zIndex: 1000,
   };
 
+  const CustomPopup = ({ position }) => {
+    const ref = useRef(null);
+
+    useEffect(() => {
+      const updateCustomPopupPosition = () => {
+        if (position && ref.current && mapRef.current) {
+          const point = mapRef.current.latLngToContainerPoint(position);
+          ref.current.style.left = point.x + "px";
+          ref.current.style.top = point.y + "px";
+        }
+      };
+
+      if (mapRef.current) {
+        updateCustomPopupPosition();
+        mapRef.current.on("move", updateCustomPopupPosition);
+        mapRef.current.on("zoom", updateCustomPopupPosition);
+      }
+
+      return () => {
+        if (mapRef.current) {
+          mapRef.current.off("move", updateCustomPopupPosition);
+          mapRef.current.off("zoom", updateCustomPopupPosition);
+        }
+      };
+    }, [position]);
+
+    return (
+      <div ref={ref} style={customPopupStyles}>
+        There is a spot here!
+      </div>
+    );
+  };
+
   return (
     <div id="map" style={{ height: "100vh", width: "100%" }}>
-      {currentPosition && (
-        <div ref={popupRef} style={userPopupStyles}>
-          You are at {currentPosition[0]}, {currentPosition[1]}
-        </div>
-      )}
+      {customPopupPositions.map((position, index) => (
+        <CustomPopup key={`popup-${index}`} position={position} />
+      ))}
     </div>
   );
 };
