@@ -9,7 +9,7 @@ const MapComponent = () => {
 
   const initializeMap = () => {
     if (!mapRef.current) {
-      mapRef.current = L.map("map").setView([51.505, -0.09], 13); // Fallback position
+      mapRef.current = L.map("map").setView([51.505, -0.09], 13);
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(
         mapRef.current
       );
@@ -42,10 +42,7 @@ const MapComponent = () => {
     };
 
     if (mapRef.current) {
-      // Initial positioning
       updatePopupPosition();
-
-      // Update the popup position when the map moves or zooms
       mapRef.current.on("move", updatePopupPosition);
       mapRef.current.on("zoom", updatePopupPosition);
     }
@@ -58,7 +55,7 @@ const MapComponent = () => {
     };
   }, [currentPosition]);
 
-  const customPopupStyles = {
+  const userPopupStyles = {
     backgroundColor: "#f9f9f9",
     border: "1px solid #ccc",
     padding: "10px",
@@ -70,7 +67,7 @@ const MapComponent = () => {
   return (
     <div id="map" style={{ height: "100vh", width: "100%" }}>
       {currentPosition && (
-        <div ref={popupRef} style={customPopupStyles}>
+        <div ref={popupRef} style={userPopupStyles}>
           You are at {currentPosition[0]}, {currentPosition[1]}
         </div>
       )}
