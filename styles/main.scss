@@ -1,1 +1,37 @@
 @import "./settings/normalize";
+
+.leaflet-tooltip {
+  border: none;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.leaflet-tooltip:before {
+  border-width: 13px;
+  transform: rotate(55deg);
+  position: absolute;
+}
+
+.custom-button {
+  background-color: white;
+  border: none;
+  border-radius: 12px;
+  color: black;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-bottom: 25px;
+  transform: translateX(8px);
+}
+
+.custom-button:hover {
+  background-color: #f2f2f2;
+}
+
+.my-custom-popup {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-shadow: 0 1px 7px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  z-index: 1000;
+}
