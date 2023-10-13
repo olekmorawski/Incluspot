@@ -85,6 +85,7 @@ const MapComponent = () => {
         .openOn(mapRef.current);
 
       console.log("Popup placed:", newPopup);
+      console.log("Popup HTML element:", newPopup.getElement());
 
       setCustomPopupPositions([
         ...customPopupPositions,
