@@ -8,7 +8,18 @@ const Nav = () => {
   return (
     <div className="nav_box">
       <div className="logo_container">
-        <img className="logo" src="" alt="Incluspot Logo" />
+        <img
+          className="logo"
+          src="styles\images\Incluspot_logo.png"
+          alt="Incluspot Logo"
+          style={{
+            maxWidth: "280px",
+            maxHeight: "280px",
+            width: "auto",
+            height: "auto",
+            objectFit: "contain",
+          }}
+        />
       </div>
       <div className="nav">
         <div className="nav_links">
@@ -57,7 +68,7 @@ const Nav = () => {
               className="right"
               onClick={() => setActiveLink("/mapview")}
             >
-              Map View
+              View Map
             </Link>
           </>
         </div>

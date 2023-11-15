@@ -25,12 +25,13 @@ body {
   position: sticky;
   justify-content: space-between;
   align-items: center;
-  padding: 40px 240px;
+  padding: 40px 280px;
   .nav {
     display: flex;
     align-items: center;
     min-height: 70px;
     max-width: 1254px;
+    margin-top: 35px;
     .nav_links {
       display: flex;
       align-items: center;
@@ -38,12 +39,12 @@ body {
       a,
       .scroll-link {
         color: #ffffff;
-        font-size: 16px;
+        font-size: 20px;
+        font-family: $font-alt;
         padding: 15px 30px;
         text-decoration: none;
         transition: color 0.3s, transform 0.3s;
         margin-right: 10px;
-
         &:hover {
           color: #ffd700;
           transform: translateY(-2px);
@@ -56,11 +57,12 @@ body {
       overflow: hidden;
       a {
         flex: none;
+        font-family: $font-alt;
         border: none;
         outline: none;
         cursor: pointer;
         padding: 15px 30px;
-        font-size: 16px;
+        font-size: 20px;
         transition: background-color 0.3s;
         text-decoration: none;
         display: flex;
@@ -111,6 +113,31 @@ body {
     .logo_container {
       margin-left: auto;
       display: flex;
+      align-items: center;
+    }
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  .header_box {
+    width: 100vw;
+    height: 970px;
+    display: flex;
+    background-color: $color-primaryblue;
+    justify-content: center;
+    position: relative;
+    .overlay {
+      position: absolute;
+      top: 535px; // Adjust the positioning as needed
+      left: 320px; // Adjust the positioning as needed
+      width: 450px; // Adjust size as needed
+      height: 400px; // Adjust size as needed
+      background-color: #0e2e46;
+      color: white;
+      display: flex;
+      justify-content: center;
       align-items: center;
     }
   }
