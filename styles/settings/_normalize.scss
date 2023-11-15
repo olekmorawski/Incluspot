@@ -197,9 +197,9 @@ select {
 button,
 [type="button"],
 [type="reset"],
-[type="submit"] {
-  -webkit-appearance: button;
-}
+// [type="submit"] {
+//   -webkit-appearance: button;
+// }
 
 /**
    * Remove the inner border and padding in Firefox.
@@ -289,10 +289,10 @@ textarea {
    * 2. Correct the outline style in Safari.
    */
 
-[type="search"] {
-  -webkit-appearance: textfield; /* 1 */
-  outline-offset: -2px; /* 2 */
-}
+// [type="search"] {
+//   -webkit-appearance: textfield; /* 1 */
+//   outline-offset: -2px; /* 2 */
+// }
 
 /**
    * Remove the inner padding in Chrome and Safari on macOS.

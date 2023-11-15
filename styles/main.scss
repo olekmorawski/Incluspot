@@ -1,4 +1,31 @@
 @import "./settings/normalize";
+@import "./settings/fonts";
+@import "./settings/colors";
+
+html,
+body {
+  font-size: 16px;
+  position: relative;
+}
+
+* {
+  font-family: Open Sans;
+}
+
+.bg {
+  position: relative;
+  width: 100vw;
+  background-color: $color-primaryblue;
+}
+
+.nav_box {
+  .nav {
+    .auth_links {
+    }
+    .nav_links {
+    }
+  }
+}
 
 .leaflet-tooltip {
   border: none;

@@ -1,12 +1,14 @@
 import React from "react";
 import Nav from "../components/Nav";
+import Header from "../components/Header";
 
 function Home() {
   return (
-    <div>
+    <div className="bg">
       <Nav />
-      <h1>Welcome to the Home Page</h1>
-      <p>This is a boilerplate home page.</p>
+      <div className="header">
+        <Header />
+      </div>
     </div>
   );
 }

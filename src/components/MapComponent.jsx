@@ -4,7 +4,6 @@ import "leaflet/dist/leaflet.css";
 import "leaflet.locatecontrol/dist/L.Control.Locate.min.css";
 import Locate from "leaflet.locatecontrol";
 
-// Map Initialization and Geolocation Functions
 const initializeMap = (mapRef) => {
   if (!mapRef.current) {
     mapRef.current = L.map("map");
@@ -124,7 +123,7 @@ const MapComponent = () => {
     };
   }, [customPopupPositions]);
 
-  return <div id="map" style={{ height: "100vh", width: "100%" }}></div>;
+  return <div id="map" style={{ height: "100vh", width: "100%" }} />;
 };
 
 export default MapComponent;
