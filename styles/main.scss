@@ -9,23 +9,121 @@ body {
 }
 
 * {
-  font-family: Open Sans;
+  font-family: $font-base;
 }
 
 .bg {
   position: relative;
   width: 100vw;
-  background-color: $color-primaryblue;
 }
 
 .nav_box {
+  top: 0;
+  z-index: 42;
+  background-color: $color-primaryblue;
+  display: flex;
+  position: sticky;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
   .nav {
-    .auth_links {
-    }
+    display: flex;
+    align-items: center;
+    min-height: 70px;
+
     .nav_links {
+      display: flex;
+      align-items: center;
+      margin-right: 20px;
+      a,
+      .scroll-link {
+        color: #ffffff;
+        font-size: 16px;
+        padding: 15px 20px;
+        text-decoration: none;
+        transition: color 0.3s, transform 0.3s;
+        margin-right: 10px;
+
+        &:hover {
+          color: #ffd700;
+          transform: translateY(-2px);
+        }
+      }
+    }
+    .auth_links {
+      display: flex;
+      border-radius: 50px;
+      overflow: hidden;
+
+      a {
+        flex: none;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 15px 20px;
+        font-size: 16px;
+        transition: background-color 0.3s;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+          background-color: #ffd700;
+        }
+      }
+
+      .left {
+        border-top-left-radius: 50px;
+        border-bottom-left-radius: 50px;
+        background-color: $color-secondaryblue;
+        color: $color-primaryblue;
+      }
+
+      .center {
+        position: relative;
+        background: linear-gradient(
+          to right,
+          $color-secondaryblue 0%,
+          $color-secondaryblue 80%,
+          $color-orange 100%
+        );
+        color: $color-primaryblue;
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-color: #ffd700;
+          opacity: 0;
+          transition: opacity 0.3s;
+          border-radius: inherit;
+        }
+
+        &:hover::before {
+          opacity: 1;
+        }
+      }
+
+      .right {
+        border-top-right-radius: 50px;
+        border-bottom-right-radius: 50px;
+        background: $color-orange;
+        color: #ffffff;
+      }
+    }
+    .logo_container {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
     }
   }
 }
+
+// Leaflet bs
 
 .leaflet-tooltip {
   border: none;

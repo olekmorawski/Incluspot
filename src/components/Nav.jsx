@@ -11,26 +11,12 @@ const Nav = () => {
         <img className="logo" src="" alt="Incluspot Logo" />
       </div>
       <div className="nav">
-        <div className="auth_links">
-          ? (<Link onClick={""}>Sign Out</Link>) : (
-          <>
-            <Link to="/login" onClick={() => setActiveLink("/login")}>
-              Log in
-            </Link>
-            <Link to="/signup" onClick={() => setActiveLink("/signup")}>
-              Sign up
-            </Link>
-            <Link to="/mapview" onClick={() => setActiveLink("/mapview")}>
-              Map View
-            </Link>
-          </>
-          )
-        </div>
         <div className="nav_links">
           <Link to="/" onClick={() => setActiveLink("/")}>
             Home
           </Link>
           <ScrollLink
+            className="scroll-link"
             to="aboutSection"
             spy={true}
             smooth={true}
@@ -40,6 +26,7 @@ const Nav = () => {
             About
           </ScrollLink>
           <ScrollLink
+            className="scroll-link"
             to="contactSection"
             spy={true}
             smooth={true}
@@ -48,6 +35,31 @@ const Nav = () => {
           >
             Contact
           </ScrollLink>
+        </div>
+        <div className="auth_links">
+          <>
+            <Link
+              to="/login"
+              className="left"
+              onClick={() => setActiveLink("/login")}
+            >
+              Log in
+            </Link>
+            <Link
+              to="/signup"
+              className="center"
+              onClick={() => setActiveLink("/signup")}
+            >
+              Sign up
+            </Link>
+            <Link
+              to="/mapview"
+              className="right"
+              onClick={() => setActiveLink("/mapview")}
+            >
+              Map View
+            </Link>
+          </>
         </div>
       </div>
     </div>
