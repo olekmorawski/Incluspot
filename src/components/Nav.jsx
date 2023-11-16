@@ -1,12 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Link as ScrollLink } from "react-scroll";
 
 const Nav = () => {
   const [activeLink, setActiveLink] = useState("/");
+  const [addShadow, setAddShadow] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setAddShadow(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
-    <div className="nav_box">
+    <div className={`nav_box ${addShadow ? "shadow-effect" : ""}`}>
       <div className="logo_container">
         <img
           className="logo"

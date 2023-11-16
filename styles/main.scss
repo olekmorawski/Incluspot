@@ -17,6 +17,10 @@ body {
   width: 100vw;
 }
 
+.shadow-effect {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+}
+
 .nav_box {
   top: 0;
   z-index: 42;
