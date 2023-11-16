@@ -7,6 +7,7 @@ function Home() {
   return (
     <div className="bg">
       <Nav />
+
       <div className="header">
         <Header />
       </div>

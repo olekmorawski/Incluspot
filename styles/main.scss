@@ -15,6 +15,7 @@ body {
 .bg {
   position: relative;
   width: 100vw;
+  background-color: $color-primaryblue;
 }
 
 .shadow-effect {
@@ -29,7 +30,7 @@ body {
   position: sticky;
   justify-content: space-between;
   align-items: center;
-  padding: 40px 280px;
+  padding: 40px 13%;
   .nav {
     display: flex;
     align-items: center;
@@ -126,6 +127,8 @@ body {
 }
 
 .header {
+  max-width: 1970px; /* Adjust this value as needed */
+  margin: 0 auto;
   display: flex;
   align-items: center;
   .header_box {
@@ -135,6 +138,11 @@ body {
     background-color: $color-primaryblue;
     justify-content: center;
     position: relative;
+    flex-wrap: wrap;
+    .map_img {
+      width: 100%;
+      height: auto;
+    }
     .overlay {
       position: absolute;
       top: 535px; // Adjust the positioning as needed
