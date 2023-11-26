@@ -78,7 +78,7 @@ const MapComponent = () => {
     const placePopupAndRemoveTooltip = () => {
       console.log("Attempting to place popup at:", latlng);
 
-      const newPopup = L.popup({ className: "my-custom-popup" })
+      const newPopup = L.popup()
         .setLatLng(latlng)
         .setContent("There is a spot here!")
         .openOn(mapRef.current);

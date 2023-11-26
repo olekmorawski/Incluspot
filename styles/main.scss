@@ -195,20 +195,21 @@ body {
     }
   }
 }
-// Leaflet bs
 
+// Leaflet bs
 .leaflet-tooltip {
   border: none;
   background-color: transparent;
   box-shadow: none;
 }
-
+// Tooltip Button Arrow
 .leaflet-tooltip:before {
   border-width: 13px;
   transform: rotate(55deg);
   position: absolute;
 }
 
+// Tooltip Button
 .custom-button {
   background-color: white;
   border: none;
@@ -220,15 +221,7 @@ body {
   transform: translateX(8px);
 }
 
+// Tooltip Button Hover
 .custom-button:hover {
   background-color: #f2f2f2;
-}
-
-.my-custom-popup {
-  background-color: #f9f9f9;
-  border: 1px solid #ccc;
-  padding: 10px;
-  box-shadow: 0 1px 7px rgba(0, 0, 0, 0.2);
-  position: absolute;
-  z-index: 1000;
 }
