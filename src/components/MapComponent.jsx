@@ -59,7 +59,7 @@ const MapComponent = () => {
     })
       .setLatLng(latlng)
       .setContent(
-        `<div id="${tooltipId}"><button id="${buttonId}" class="custom-button">Place Marker</button></div>`
+        `<div id="${tooltipId}"><button id="${buttonId}" class="custom-button">Place Spot!</button></div>`
       )
       .addTo(mapRef.current);
 
@@ -74,12 +74,32 @@ const MapComponent = () => {
       const buttonElement = document.getElementById(buttonId);
       if (buttonElement) {
         buttonElement.addEventListener("click", () => {
-          L.marker(latlng).addTo(mapRef.current);
+          const marker = L.marker(latlng).addTo(mapRef.current); // Define marker here
           setCustomPopupPositions([...customPopupPositions, latlng]);
+          // Attach custom tooltip to the marker
+          marker.on("click", () => {
+            // Now marker is accessible here
+            const tooltipContent = `
+              <div class="custom-marker-tooltip">
+                <button class="tooltip-button">Report</button>
+                <button class="tooltip-button">Route</button>
+                <button class="tooltip-button">Details</button>
+              </div>
+            `;
+
+            marker
+              .bindTooltip(tooltipContent, {
+                permanent: true,
+                direction: "right",
+                className: "my-custom-marker-tooltip",
+              })
+              .openTooltip();
+          });
+
           tooltip.remove();
           currentTooltip = null;
           clearTimeout(tooltipTimer);
-          setClickListenerActive(false); // Remove the click event listener
+          setClickListenerActive(false);
         });
       }
     }, 0);
