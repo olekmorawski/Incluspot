@@ -100,6 +100,12 @@ const MapComponent = () => {
                 interactive: true,
               })
               .openTooltip();
+            const closeButton = document.querySelector(".tooltip-close-btn");
+            if (closeButton) {
+              closeButton.addEventListener("click", () => {
+                marker.closeTooltip();
+              });
+            }
           });
 
           tooltip.remove();

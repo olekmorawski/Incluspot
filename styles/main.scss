@@ -235,7 +235,6 @@ body {
   margin-bottom: 15px;
   display: flex;
   flex-direction: column;
-
   .tooltip-btn {
     background: transparent;
     border: none;
@@ -247,7 +246,6 @@ body {
     font-size: 14px;
     margin: 2px 0;
     cursor: pointer;
-
     &:hover {
       color: #0056b3;
     }
