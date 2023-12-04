@@ -59,7 +59,11 @@ const MapComponent = () => {
     })
       .setLatLng(latlng)
       .setContent(
-        `<div id="${tooltipId}"><button id="${buttonId}" class="custom-button">Place Spot!</button></div>`
+        `<div id="${tooltipId}">
+        <button id="${buttonId}" class="custom-button">
+        Place Spot!
+        </button>
+        </div>`
       )
       .addTo(mapRef.current);
 
@@ -81,17 +85,19 @@ const MapComponent = () => {
             // Now marker is accessible here
             const tooltipContent = `
               <div class="custom-marker-tooltip">
-                <button class="tooltip-button">Report</button>
-                <button class="tooltip-button">Route</button>
-                <button class="tooltip-button">Details</button>
+              <button class="tooltip-close-btn">X</button>
+                <button class="tooltip-btn">Report</button>
+                <button class="tooltip-btn">Route</button>
+                <button class="tooltip-btn">Details</button>
               </div>
             `;
 
             marker
               .bindTooltip(tooltipContent, {
                 permanent: true,
-                direction: "right",
+                direction: "center",
                 className: "my-custom-marker-tooltip",
+                interactive: true,
               })
               .openTooltip();
           });
