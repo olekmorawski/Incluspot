@@ -72,7 +72,7 @@ app.post("/login", async (req, res) => {
 
 app.post("/addSpot", async (req, res) => {
   const client = new MongoClient(uri);
-  const { name, address, username, coordinates, imageLink } = req.body;
+  const { name, address, username, coordinates, imgLink } = req.body;
 
   try {
     await client.connect();
