@@ -70,4 +70,32 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.post("/addSpot", async (req, res) => {
+  const client = new MongoClient(uri);
+  const { name, address, username, coordinates, imageLink } = req.body;
+
+  try {
+    await client.connect();
+    const database = client.db("incluspot");
+    const spots = database.collection("spots");
+
+    const newSpot = {
+      name,
+      address,
+      username,
+      dateAdded: new Date(),
+      coordinates,
+      imgLink,
+    };
+
+    const result = await spots.insertOne(newSpot);
+    res.status(201).json(result);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Server Error");
+  } finally {
+    await client.close();
+  }
+});
+
 app.listen(port, () => console.log("server on port " + port));

@@ -35,6 +35,7 @@ const MapComponent = () => {
   const [customPopupPositions, setCustomPopupPositions] = useState([]);
   const [hasInitialViewBeenSet, setHasInitialViewBeenSet] = useState(false);
   const [clickListenerActive, setClickListenerActive] = useState(true); // New state variable
+
   let currentTooltip = null;
   let tooltipCounter = 0;
 
@@ -120,32 +121,22 @@ const MapComponent = () => {
   useEffect(() => {
     initializeMap(mapRef, setHasInitialViewBeenSet);
 
-    if (mapRef.current) {
-      mapRef.current.on("click", onMapClick);
-    }
-
-    return () => {
-      if (mapRef.current) {
-        mapRef.current.off("click", onMapClick);
-      }
-    };
-  }, [customPopupPositions, clickListenerActive]);
-
-  useEffect(() => {
     const enableClickListener = () => {
       setClickListenerActive(true);
     };
 
     if (mapRef.current) {
+      mapRef.current.on("click", onMapClick);
       mapRef.current.on("click", enableClickListener);
     }
 
     return () => {
       if (mapRef.current) {
+        mapRef.current.off("click", onMapClick);
         mapRef.current.off("click", enableClickListener);
       }
     };
-  }, []);
+  }, [customPopupPositions, clickListenerActive]);
 
   return <div id="map" style={{ height: "100vh", width: "100%" }} />;
 };
