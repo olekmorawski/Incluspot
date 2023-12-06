@@ -52,6 +52,15 @@ const MapComponent = () => {
     }
   };
 
+  const fetchSpotsFromDatabase = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/getSpots");
+      return response.data; // Assuming this returns an array of spots
+    } catch (error) {
+      console.error("Failed to fetch spots:", error);
+    }
+  };
+
   const onMapClick = (event) => {
     // Check if the click listener is active or if there's an existing tooltip
     if (!clickListenerActive || currentTooltip) {
@@ -164,6 +173,17 @@ const MapComponent = () => {
     const enableClickListener = () => {
       setClickListenerActive(true);
     };
+
+    const addSpotsToMap = async () => {
+      const spots = await fetchSpotsFromDatabase();
+      spots.forEach((spot) => {
+        L.marker([spot.coordinates.lat, spot.coordinates.lng])
+          .addTo(mapRef.current)
+          .bindPopup(`Name: ${spot.name}<br>Address: ${spot.address}`);
+      });
+    };
+
+    addSpotsToMap();
 
     if (mapRef.current) {
       mapRef.current.on("click", onMapClick);

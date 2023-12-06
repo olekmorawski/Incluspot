@@ -98,4 +98,21 @@ app.post("/addSpot", async (req, res) => {
   }
 });
 
+app.get("/getSpots", async (req, res) => {
+  const client = new MongoClient(uri);
+
+  try {
+    await client.connect();
+    const database = client.db("incluspot");
+    const spots = database.collection("spots");
+    const spotsData = await spots.find({}).toArray();
+    res.status(200).json(spotsData);
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("Internal server error");
+  } finally {
+    await client.close();
+  }
+});
+
 app.listen(port, () => console.log("server on port " + port));
