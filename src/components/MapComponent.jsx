@@ -177,8 +177,9 @@ const MapComponent = () => {
     const addSpotsToMap = async () => {
       const spots = await fetchSpotsFromDatabase();
       spots.forEach((spot) => {
-        L.marker([spot.coordinates.lat, spot.coordinates.lng])
-          .addTo(mapRef.current)
+        L.marker([spot.coordinates.lat, spot.coordinates.lng]).addTo(
+          mapRef.current
+        );
       });
     };
 
@@ -197,9 +198,7 @@ const MapComponent = () => {
     };
   }, [customPopupPositions, clickListenerActive]);
 
-  return (
-    <div id="map" style={{ height: "100vh", width: "100%" }} />
-  );
+  return <div id="map" />;
 };
 
 export default MapComponent;
