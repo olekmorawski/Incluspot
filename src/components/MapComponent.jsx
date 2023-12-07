@@ -179,7 +179,6 @@ const MapComponent = () => {
       spots.forEach((spot) => {
         L.marker([spot.coordinates.lat, spot.coordinates.lng])
           .addTo(mapRef.current)
-          .bindPopup(`Name: ${spot.name}<br>Address: ${spot.address}`);
       });
     };
 
@@ -198,7 +197,9 @@ const MapComponent = () => {
     };
   }, [customPopupPositions, clickListenerActive]);
 
-  return <div id="map" style={{ height: "100vh", width: "100%" }} />;
+  return (
+    <div id="map" style={{ height: "100vh", width: "100%" }} />
+  );
 };
 
 export default MapComponent;

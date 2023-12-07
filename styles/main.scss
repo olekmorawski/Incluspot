@@ -12,6 +12,10 @@ body {
   font-family: $font-base;
 }
 
+#map {
+  z-index: 1;
+}
+
 .bg {
   position: relative;
   width: 100vw;
@@ -250,4 +254,34 @@ body {
       color: #0056b3;
     }
   }
+}
+
+.pane {
+  z-index: 10;
+}
+
+.sliding-pane-container {
+  position: absolute; /* Use absolute positioning */
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 300px;
+  transition: transform 0.3s ease-in-out;
+  background-color: #fff; /* Set a background color to cover the map */
+  z-index: 20; /* Set a higher z-index than the map */
+}
+
+.sliding-pane-content {
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+
+.sliding-pane-container.open {
+  transform: translateX(0);
+}
+
+.sliding-pane-container:not(.open) {
+  transform: translateX(
+    0%
+  ); /* Use positive translateX value to move off-screen */
 }
