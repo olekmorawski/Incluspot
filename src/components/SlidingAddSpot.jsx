@@ -6,13 +6,15 @@ const SlidingAddSpot = () => {
     setIsPaneOpen(!isPaneOpen);
   };
 
+  
+
   return (
     <div className="pane">
       <div className={`sliding-pane-container ${isPaneOpen ? "open" : ""}`}>
         <button className="close-btn" onClick={togglePane}>
           X
         </button>
-        <form className="sliding-pane-content">
+        <form onSubmit={handleSubmit} className="sliding-pane-content">
           <div className="spot-name">
             <label htmlFor="spot-name">Spot Name</label>
             <input
@@ -22,8 +24,8 @@ const SlidingAddSpot = () => {
               placeholder="Spot Name"
             />
           </div>
-          <div className="spot-img">
-            <label htmlFor="spot-img">Spot Image</label>
+          <div className="spot.image-upload">
+            <label htmlFor="spot.image-upload">Spot Image</label>
             <input
               type="file"
               name="spot-img"
@@ -32,7 +34,9 @@ const SlidingAddSpot = () => {
             />
           </div>
           <div className="spot-btns">
-            <button className="addspot-btn">Add Spot</button>
+            <button type="submit" className="addspot-btn">
+              Add Spot
+            </button>
           </div>
         </form>
       </div>

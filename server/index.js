@@ -2,6 +2,12 @@ const port = 8000;
 const express = require("express");
 const { v4: uuidv4 } = require("uuid");
 const { MongoClient } = require("mongodb");
+const multer = require("multer");
+const pinataSDK = require("@pinata/sdk");
+const pinata = new pinataSDK(
+  "ff6d3ff7737e8627277c",
+  "462bb62848846981d6d23bcf21e527172d0d2d8bde7a71047d2c4b383dc88207"
+);
 const cors = require("cors");
 const uri =
   "mongodb+srv://olekmorawski:admin@cluster.8lth5i1.mongodb.net/?retryWrites=true&w=majority";
@@ -9,6 +15,16 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
+
+const upload = multer({ storage: multer.memoryStorage() });
+
+
+function bufferToStream(buffer) {
+  const readable = new Readable();
+  readable.push(buffer);
+  readable.push(null);
+  return readable;
+}
 
 app.post("/signup", async (req, res) => {
   const client = new MongoClient(uri);
@@ -112,6 +128,38 @@ app.get("/getSpots", async (req, res) => {
     res.status(500).send("Internal server error");
   } finally {
     await client.close();
+  }
+});
+
+async function storeOnIPFS(fileBuffer, title) {
+  try {
+    const details = {
+      pinataMetadata: {
+        name: title,
+      },
+    };
+    const imageResult = await pinata.pinFileToIPFS(bufferToStream(fileBuffer), details);
+    const metadata = {
+      title: title,
+      image: `https://gateway.pinata.cloud/ipfs/${imageResult.IpfsHash}`,
+    };
+    const metadataResult = await pinata.pinJSONtoIPFS(metadata, details);
+    return metadataResult.ipfsHash;
+  } catch (error){
+    console.log("IPFS Upload Error:", error)
+  }
+}
+const ipfsHashes = [];
+
+app.post("/api/upload", upload.single("file"), async (req, res) => {
+  try {
+    const fileBuffer = req.file.buffer;
+    const title = req.body.title;
+    const ipfsHash = await storeOnIPFS(fileBuffer, title);
+    ipfsHashes.push(ipfsHash);
+    res.status(200).send({ message: "File stored on IPFS", ipfsHash });
+  } catch (error) {
+    res.status(500).send("Internal Server Error");
   }
 });
 
