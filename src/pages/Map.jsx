@@ -1,12 +1,14 @@
 import { React } from "react";
 import MapComponent from "../components/MapComponent";
-import SlidingPane from "../components/SlidingPane";
+import SlidingDetailsPane from "../components/SlidingDetailsPane";
+import SlidingAddSpot from "../components/SlidingAddSpot";
 
 function Map() {
   return (
     <div>
       <MapComponent />
-      <SlidingPane />
+      <SlidingDetailsPane />
+      <SlidingAddSpot />
     </div>
   );
 }
