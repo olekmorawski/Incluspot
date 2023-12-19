@@ -5,8 +5,8 @@ const { MongoClient } = require("mongodb");
 const multer = require("multer");
 const pinataSDK = require("@pinata/sdk");
 const pinata = new pinataSDK(
-  "ff6d3ff7737e8627277c",
-  "462bb62848846981d6d23bcf21e527172d0d2d8bde7a71047d2c4b383dc88207"
+  "bbfc9432fed2182df144",
+  "7cf267c4593a8920ba3f3d678632aa37901305245cba707fcf2a2885db40f870"
 );
 const cors = require("cors");
 const uri =
@@ -17,7 +17,6 @@ app.use(express.json());
 app.use(cors());
 
 const upload = multer({ storage: multer.memoryStorage() });
-
 
 function bufferToStream(buffer) {
   const readable = new Readable();
@@ -138,15 +137,18 @@ async function storeOnIPFS(fileBuffer, title) {
         name: title,
       },
     };
-    const imageResult = await pinata.pinFileToIPFS(bufferToStream(fileBuffer), details);
+    const imageResult = await pinata.pinFileToIPFS(
+      bufferToStream(fileBuffer),
+      details
+    );
     const metadata = {
       title: title,
       image: `https://gateway.pinata.cloud/ipfs/${imageResult.IpfsHash}`,
     };
     const metadataResult = await pinata.pinJSONtoIPFS(metadata, details);
     return metadataResult.ipfsHash;
-  } catch (error){
-    console.log("IPFS Upload Error:", error)
+  } catch (error) {
+    console.log("IPFS Upload Error:", error);
   }
 }
 const ipfsHashes = [];
