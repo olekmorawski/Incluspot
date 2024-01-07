@@ -270,24 +270,80 @@ body {
   height: 100vh;
   transition: transform 0.3s ease-in-out;
   background-color: #fff; /* Set a background color to cover the map */
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
   z-index: 20; /* Set a higher z-index than the map */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 20px;
+
+  &.open {
+    right: 0; // Pane is fully visible when open
+  }
+
+  &:not(.open) {
+    right: -200%; // Move off-screen by 200% when not open
+  }
+}
+
+.close-btn {
+  align-self: flex-end;
+  background-color: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  margin-bottom: 20px; // spacing
+
+  &:hover {
+    color: #007bff; // Change color on hover
+    transform: scale(1.1); // Slightly enlarge the button on hover
+  }
 }
 
 .sliding-pane-content {
-  padding: 20px;
-  border: 1px solid #ccc;
+  width: 100%;
+  border: none;
+
+  .spot-name,
+  .spot-image-upload {
+    margin-bottom: 20px;
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"],
+    input[type="file"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  }
+
+  .spot-btns {
+    display: flex;
+    justify-content: center;
+
+    .addspot-btn {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
 }
 
-.sliding-pane-container.open {
-  transform: translateX(0);
-}
-
-.sliding-pane-container:not(.open) {
-  transform: translateX(
-    0%
-  ); /* Use positive translateX value to move off-screen */
-}
-
+// Login styles
 .login {
   position: relative;
   width: 100vw;
