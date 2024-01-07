@@ -287,3 +287,96 @@ body {
     0%
   ); /* Use positive translateX value to move off-screen */
 }
+
+.login {
+  position: relative;
+  width: 100vw;
+  background-color: $color-primaryblue;
+
+  .login_bigbox {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10%;
+
+    overflow: hidden;
+  }
+
+  .login_body {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    .login_text {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .login_box {
+      .form2 {
+        .register-form {
+          display: flex;
+          flex-direction: column;
+
+          .label-form {
+            margin-bottom: 5px;
+            font-size: 16px;
+            color: #666;
+          }
+
+          input {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+
+            &:focus {
+              outline: none;
+              border-color: #007bff;
+            }
+          }
+        }
+      }
+    }
+
+    .btns {
+      display: flex;
+      justify-content: space-between;
+
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &.signup {
+          background-color: #007bff;
+          color: white;
+
+          &:hover {
+            background-color: #0056b3;
+          }
+        }
+
+        &.submit {
+          background-color: #28a745;
+          color: white;
+
+          &:hover {
+            background-color: #218838;
+          }
+        }
+      }
+    }
+  }
+}

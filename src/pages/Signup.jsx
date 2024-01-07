@@ -52,59 +52,65 @@ const Signup = () => {
     <>
       <div className="login">
         <Nav />
-        <div className="login_body">
-          <div className="login_text">Create Account</div>
-          <div className="login_box">
-            <div className={"form2"}>
-              <form
-                className={"register-form"}
-                onSubmit={handleSubmit}
-                id="registerForm"
-              >
-                <label className={"label-form"} htmlFor={"email"}>
-                  E-mail
-                </label>
-                <input
-                  type="text"
-                  name="email"
-                  id="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                />
-                <label className={"label-form"} htmlFor={"password"}>
-                  Password
-                </label>
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                />
-                <label className={"label-form"} htmlFor={"confirmPassword"}>
-                  Confirm Password
-                </label>
-                <input
-                  type="password"
-                  name="confirmPassword"
-                  id="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                />
-              </form>
+        <div className="login_bigbox">
+          <div className="login_body">
+            <div className="login_text">Create Account</div>
+            <div className="login_box">
+              <div className={"form2"}>
+                <form
+                  className={"register-form"}
+                  onSubmit={handleSubmit}
+                  id="registerForm"
+                >
+                  <label className={"label-form"} htmlFor={"email"}>
+                    E-mail
+                  </label>
+                  <input
+                    type="text"
+                    name="email"
+                    id="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                  />
+                  <label className={"label-form"} htmlFor={"password"}>
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                  />
+                  <label className={"label-form"} htmlFor={"confirmPassword"}>
+                    Confirm Password
+                  </label>
+                  <input
+                    type="password"
+                    name="confirmPassword"
+                    id="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                  />
+                </form>
+              </div>
             </div>
-          </div>
-          <div className="btns">
-            <button
-              className={"login-btn"}
-              type={"button"}
-              onClick={() => navigate("/login")}
-            >
-              Log In
-            </button>
-            <button className={"submit"} type={"submit"} onClick={handleSubmit}>
-              Register
-            </button>
+            <div className="btns">
+              <button
+                className={"login-btn"}
+                type={"button"}
+                onClick={() => navigate("/login")}
+              >
+                Log In
+              </button>
+              <button
+                className={"submit"}
+                type={"submit"}
+                onClick={handleSubmit}
+              >
+                Register
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -52,12 +52,7 @@ const SlidingAddSpot = () => {
           </div>
           <div className="spot.image-upload">
             <label htmlFor="spot.image-upload">Spot Image</label>
-            <input
-              type="file"
-              name="spot-img"
-              id="spot-img"
-              placeholder="Spot Image"
-            />
+            <input type="file" name="file" id="file" placeholder="Spot Image" />
           </div>
           <div className="spot-btns">
             <button type="submit" className="addspot-btn">
