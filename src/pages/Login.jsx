@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../services/Auth";
 import axios from "axios";
 import Nav from "../components/Nav";
 
@@ -9,6 +10,7 @@ const Login = () => {
     password: "",
   });
   const [isLoginSuccessful, setIsLoginSuccessful] = useState(false);
+  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
 
   let navigate = useNavigate();
 
@@ -22,6 +24,7 @@ const Login = () => {
       const success = response.status === 201;
       if (success) {
         setIsLoginSuccessful(true);
+        setIsAuthenticated(true);
       }
     } catch (err) {
       console.log(err);

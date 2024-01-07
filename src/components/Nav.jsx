@@ -1,10 +1,13 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Link as ScrollLink } from "react-scroll";
+import { AuthContext } from "../services/Auth";
 
 const Nav = () => {
   const [activeLink, setActiveLink] = useState("/");
   const [addShadow, setAddShadow] = useState(false);
+  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  let navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,6 +18,11 @@ const Nav = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    navigate("/");
+  };
 
   return (
     <div className={`nav_box ${addShadow ? "shadow-effect" : ""}`}>
@@ -59,29 +67,35 @@ const Nav = () => {
           </ScrollLink>
         </div>
         <div className="auth_links">
-          <>
-            <Link
-              to="/login"
-              className="left"
-              onClick={() => setActiveLink("/login")}
-            >
-              Log in
+          {!isAuthenticated ? (
+            <>
+              <Link
+                to="/login"
+                className="left"
+                onClick={() => setActiveLink("/login")}
+              >
+                Log in
+              </Link>
+              <Link
+                to="/signup"
+                className="center"
+                onClick={() => setActiveLink("/signup")}
+              >
+                Sign up
+              </Link>
+            </>
+          ) : (
+            <Link to="/" className="left" onClick={handleLogout}>
+              Log out
             </Link>
-            <Link
-              to="/signup"
-              className="center"
-              onClick={() => setActiveLink("/signup")}
-            >
-              Sign up
-            </Link>
-            <Link
-              to="/mapview"
-              className="right"
-              onClick={() => setActiveLink("/mapview")}
-            >
-              View Map
-            </Link>
-          </>
+          )}
+          <Link
+            to="/mapview"
+            className="right"
+            onClick={() => setActiveLink("/mapview")}
+          >
+            View Map
+          </Link>
         </div>
       </div>
     </div>
