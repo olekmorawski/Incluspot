@@ -1,6 +1,6 @@
 # Incluspot Maps - Fast and easy navigation to a handicap spot
 
-![Incluspot Logo](/../Incluspot/styles/images/Incluspot_logo.png)
+![Incluspot Logo](styles\images\Incluspot_logo.png)
 
 Welcome to Incluspot, your ...
 
